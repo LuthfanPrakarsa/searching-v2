@@ -1,0 +1,72 @@
+library = []
+
+def add_book():
+    # Fungsi untuk menambahkan buku ke dalam perpustakaan
+    title = input("Masukkan judul buku: ")
+    year = input("Masukkan tahun terbit: ")
+    
+    book = {"title": title, "year": year}
+    library.append(book)
+    print(f"Buku '{title}' berhasil ditambahkan ke perpustakaan!")
+
+def sort_books(key="title"):
+    if key not in ["title", "year"]:
+        print("Kunci pengurutan tidak valid. Menggunakan default (judul).")
+        key = "title"
+    sorted_library = sorted(library, key=lambda x: x[key])
+    display_books(sorted_library)
+
+def search_books_by_title(keyword):
+    results = [book for book in library if keyword.lower() in book["title"].lower()]
+    return results
+
+def search_books_by_year(keyword):
+    results = [book for book in library if keyword == book["year"]]
+    return results
+
+def display_books(books):
+    if not books:
+        print("Tidak ada buku yang ditemukan.")
+    else:
+        print("Buku yang ditemukan:")
+        for book in books:
+            print(f"Judul: {book['title']}, Tahun: {book['year']}")
+
+def main():
+    while True:
+        print("\nMenu Perpustakaan:")
+        print("1. Tambah Buku")
+        print("2. Daftar Buku")
+        print("3. Cari Buku")
+        print("4. Keluar")
+        choice = input("Pilih menu (1/2/3/4): ")
+        
+        if choice == '1':
+            add_book()
+        elif choice == '2':
+            key = input("Masukkan kunci pengurutan (title/year): ")
+            sort_books(key)
+        elif choice == '3':
+            print("Pilihan pencarian:")
+            print("1. Berdasarkan Judul")
+            print("2. Berdasarkan Tahun Terbit")
+            search_choice = input("Pilih metode pencarian (1/2): ")
+            
+            if search_choice == '1':
+                keyword = input("Masukkan kata kunci judul buku yang ingin dicari: ")
+                results = search_books_by_title(keyword)
+                display_books(results)
+            elif search_choice == '2':
+                keyword = input("Masukkan tahun terbit buku yang ingin dicari: ")
+                results = search_books_by_year(keyword)
+                display_books(results)
+            else:
+                print("Pilihan tidak valid.")
+        elif choice == '4':
+            print("Terima kasih telah menggunakan perpustakaan!")
+            break
+        else:
+            print("Pilihan tidak valid. Silakan coba lagi")
+
+if __name__ == "__main__":
+    main()
